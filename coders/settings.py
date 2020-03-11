@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'share_clothes',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +78,7 @@ DATABASES = {
      'default': {
         'HOST': '127.0.0.1',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cl',
+        'NAME': 'charity-donation',
         'USER': 'postgres',
         'PASSWORD': 'coderslab',
     }
