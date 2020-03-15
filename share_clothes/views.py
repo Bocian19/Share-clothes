@@ -11,7 +11,9 @@ class LandingPageView(View):
     def get(self, request):
         quantity = Donation.objects.all().aggregate(Sum('quantity'))
         num_of_institutions_granted = Institution.objects.all().count()
-        return render(request, 'index.html', {'quantity': quantity, "num_of_institutions": num_of_institutions_granted})
+        institutions = Institution.objects.all()
+        return render(request, 'index.html', {'quantity': quantity, "num_of_institutions": num_of_institutions_granted,
+                      "institutions": institutions})
 
 
 class AddDonationView(View):

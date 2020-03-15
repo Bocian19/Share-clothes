@@ -7,6 +7,12 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     name = models.CharField(max_length=64, null=False)
 
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
 
 class Institution(models.Model):
     FUNDACJA = 'Fun'
@@ -21,6 +27,7 @@ class Institution(models.Model):
     name = models.CharField(max_length=64, null=False)
     description = models.TextField(null=True)
     type = models.CharField(choices=TYPE_CHOICES, default=FUNDACJA, max_length=3)
+    categories = models.ManyToManyField(Category)
 
 
 class Donation(models.Model):
