@@ -67,7 +67,7 @@ class RegisterView(View):
                 if confirm_password == password:
                     new_user = User.objects.create_user(username=username, password=password)
                     new_user.save()
-                    return render(request, 'login.html')
+                    return redirect('login')
                 else:
                     form.add_error('confirm_password', 'Powtórzone hasło jest inne niż pierwsze')
                     return render(request, 'register.html', {'form': form})
