@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Sum
 from django.shortcuts import render
 
@@ -24,7 +24,11 @@ class LandingPageView(View):
 class AddDonationView(View):
 
     def get(self, request):
-        return render(request, 'form.html')
+        user1 = request.user
+        if user1.is_authenticated:
+            return render(request, 'form.html', {"user1": user1})
+        else:
+            return render(request, 'form.html')
 
 
 class LoginView(View):
@@ -73,4 +77,12 @@ class RegisterView(View):
                     return render(request, 'register.html', {'form': form})
         else:
             return render(request, 'register.html', {'form': form})
+
+
+class LogoutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect(reverse_lazy('homepage'))
+
 
