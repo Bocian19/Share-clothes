@@ -1,31 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-        <header class="header--main-page">
-      <nav class="container container--70">
-        <ul class="nav--actions">
-          <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
-          <li><a href="{% url 'register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
-        </ul>
-        <ul>
-          <li><a href="{% url 'homepage' %}" class="btn btn--without-border active">Start</a></li>
-          <li><a href="{% url 'homepage' %}#steps" class="btn btn--without-border">O co chodzi?</a></li>
-          <li><a href="{% url 'homepage' %}#about-us" class="btn btn--without-border">O nas</a></li>
-          <li><a href="{% url 'homepage' %}#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
-          <li><a href="{% url 'add-donation' %}" class="btn btn--without-border">Przekaż dary</a></li>
-          <li><a href="{% url 'homepage' %}#contact" class="btn btn--without-border">Kontakt</a></li>
-        </ul>
-      </nav>
-
-      <div class="slogan container container--90">
-        <div class="slogan--item">
-          <h1>
-            Zacznij pomagać!<br />
-            Oddaj niechciane rzeczy w zaufane ręce
-          </h1>
-        </div>
-      </div>
-    </header>
   <body>
     <section id="stats" class="stats">
       <div class="container container--85">
@@ -34,19 +9,15 @@
           <h3>Oddanych worków</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum tempora!</p>
         </div>
-
         <div class="stats--item">
           <em>{{ num_of_institutions }}</em>
           <h3>Wspartych organizacji</h3>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam magnam, sint nihil cupiditate quas quam.</p>
         </div>
-
       </div>
     </section>
-
     <section id="steps" class="steps">
       <h2>Wystarczą 4 proste kroki</h2>
-
       <div class="steps--container">
         <div class="steps--item">
           <span class="icon icon--hands"></span>
@@ -69,7 +40,6 @@
           <p>kurier przyjedzie w dogodnym terminie</p>
         </div>
       </div>
-
       <a href="{% url 'register' %}" class="btn btn--large">Załóż konto</a>
     </section>
 
@@ -185,6 +155,3 @@
 
      <script src="{% static 'js/app.js' %}"></script>
 {% endblock %}
-
-
-
