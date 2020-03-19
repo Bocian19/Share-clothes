@@ -5,7 +5,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import View
-from share_clothes.models import Donation, Institution
+from share_clothes.models import Donation, Institution, Category
 from share_clothes.forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -24,11 +24,12 @@ class LandingPageView(View):
 class AddDonationView(View):
 
     def get(self, request):
+        categories = Category.objects.all()
         user1 = request.user
         if user1.is_authenticated:
-            return render(request, 'form.html', {"user1": user1})
+            return render(request, 'form.html', {"user1": user1, 'categories': categories})
         else:
-            return render(request, 'form.html')
+            return redirect('login')
 
 
 class LoginView(View):
