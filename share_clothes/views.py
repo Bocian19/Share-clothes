@@ -24,12 +24,22 @@ class LandingPageView(View):
 class AddDonationView(View):
 
     def get(self, request):
-        categories = Category.objects.all()
         user1 = request.user
         if user1.is_authenticated:
-            return render(request, 'form.html', {"user1": user1, 'categories': categories})
+            return render(request, 'form.html', {"user1": user1, 'categories': Category.objects.all(), 'institutions': Institution.objects.all()})
         else:
             return redirect('login')
+
+
+def get_institution(request):
+    cat_id = request.GET.get('cat_id')
+    # cats_id = cat_id.split(',')
+    if cat_id:
+        institutions = Institution.objects.filter(categories=Category.objects.get(pk=cat_id))
+    else:
+        institutions = Institution.objects.all()
+
+    return render(request, 'updated_form.html', {'institutions': institutions})
 
 
 class LoginView(View):

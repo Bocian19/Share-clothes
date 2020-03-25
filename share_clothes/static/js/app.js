@@ -1,4 +1,35 @@
+function get_institution_for_category() {
+    let id = this.attributes['cat_id'].value;
+    var address = '/add-donations/?cat_id='.concat(id);
+    $.ajax(
+        {
+        type: "GET",
+        url: address,
+        success: function (dupa) {
+            var div = $("#institutions");
+            div.html(dupa);
+        },
+        error: function (dupa) {
+            alert(dupa);
+        }
+    });
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
+
+  var cats_checkboxes = document.querySelectorAll("input[name=categories]");
+  cats_checkboxes.change(get_institution_for_category);
+  // for (var i=0; i<cats_checkboxes.length; i++) {
+  //   if (cats_checkboxes[i].checked) {
+  //       this(get_institution_for_category);
+  //   } else {
+  //     break;
+  //   }
+  // }
+
+
+
   /**
    * HomePage - Help section
    */
@@ -39,21 +70,21 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       const $btn = e.target;
 
-      // Buttons Active class change
-      [...this.$buttonsContainer.children].forEach(btn => btn.firstElementChild.classList.remove("active"));
-      $btn.classList.add("active");
-
-      // Current slide
-      this.currentSlide = $btn.parentElement.dataset.id;
-
-      // Slides active class change
-      this.$slidesContainers.forEach(el => {
-        el.classList.remove("active");
-
-        if (el.dataset.id === this.currentSlide) {
-          el.classList.add("active");
-        }
-      });
+      // // Buttons Active class change
+      // [...this.$buttonsContainer.children].forEach(btn => btn.firstElementChild.classList.remove("active"));
+      // $btn.classList.add("active");
+      //
+      // // Current slide
+      // this.currentSlide = $btn.parentElement.dataset.id;
+      //
+      // // Slides active class change
+      // this.$slidesContainers.forEach(el => {
+      //   el.classList.remove("active");
+      //
+      //   if (el.dataset.id === this.currentSlide) {
+      //     el.classList.add("active");
+      //   }
+      // });
     }
 
     /**
@@ -70,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if (helpSection !== null) {
     new Help(helpSection);
   }
+
 
   /**
    * Form Select
@@ -220,16 +252,18 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     updateForm() {
       this.$step.innerText = this.currentStep;
+      // TODO: Validation sth
 
-      // TODO: Validation
 
-      this.slides.forEach(slide => {
-        slide.classList.remove("active");
 
-        if (slide.dataset.step == this.currentStep) {
-          slide.classList.add("active");
-        }
-      });
+
+      // this.slides.forEach(slide => {
+      //   slide.classList.remove("active");
+      //
+      //   if (slide.dataset.step == this.currentStep) {
+      //     slide.classList.add("active");
+      //   }
+      // });
 
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
@@ -248,8 +282,10 @@ document.addEventListener("DOMContentLoaded", function() {
       this.updateForm();
     }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
+
 });
