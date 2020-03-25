@@ -33,9 +33,11 @@ class AddDonationView(View):
 
 def get_institution(request):
     cat_id = request.GET.get('cat_id')
-    # cats_id = cat_id.split(',')
-    if cat_id:
-        institutions = Institution.objects.filter(categories=Category.objects.get(pk=cat_id))
+    cats_id = cat_id.split(',')
+    if len(cats_id) > 0:
+        institutions = Institution.objects.filter(categories__in=Category.objects.filter(pk__in=cats_id))
+    elif len(cats_id) == 0:
+        institutions = Institution.objects.filter(categories__in=Category.objects.get(pk=cats_id[0]))
     else:
         institutions = Institution.objects.all()
 

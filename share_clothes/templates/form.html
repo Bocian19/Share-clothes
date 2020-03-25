@@ -57,16 +57,18 @@
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
                 {% for category in categories %}
-                <div class="form-group form-group--checkbox" cat_id={{ category.id }}>
+                <div class="form-group form-group--checkbox" >
               <label>
                 <input
+                        id="checkbox-id"
                   type="checkbox"
                   name="categories"
                   value={{ category.id }}
+                        cat_id={{ category.id }}
+
                 />
                 <span class="checkbox"></span>
-                <span class="description"
-                  >{{ category.name }}</span>
+                <span class="description">{{ category.name }}</span>
               </label>
             </div>
             {% endfor %}
