@@ -1,6 +1,7 @@
+
+
 function get_institution_for_category(id) {
-    // let id = this.attributes['cat_id'].value;
-    // var address = '/add-donations/?cat_id='.concat(id);
+
     var address = '/add-donations/?cat_id='.concat(id);
     $.ajax(
         {
@@ -19,22 +20,19 @@ function get_institution_for_category(id) {
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  var cats_checkboxes = $("input#checkbox-id");
-  // cats_checkboxes.change(get_institution_for_category);
-  var list_of_id=[];
-  for (var i=0; i<cats_checkboxes.length; i++) {
-    if (cats_checkboxes[i].checked) {
-      var id = cats_checkboxes[i].attributes['cat_id'].value;
-        list_of_id.push(id);
-    } else {
-      break;
-    }
-  }
-  // get_institution_for_category(list_of_id);
+
+
   var next = $(".btn.next-step");
   console.log(next);
-
-  next[0].click(get_institution_for_category(list_of_id));
+  next[0].addEventListener('click', function () {
+      var cats_checkboxes = $("input#checkbox-id:checked");
+      var list_of_id=[];
+    for (var i=0; i<cats_checkboxes.length; i++) {
+       var id = cats_checkboxes[i].attributes['cat_id'].value;
+        list_of_id.push(id);
+      }
+    (get_institution_for_category(list_of_id));
+    });
 
 
   /**
