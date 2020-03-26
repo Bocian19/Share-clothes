@@ -1,5 +1,10 @@
 
 
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
 function get_institution_for_category(id) {
 
     var address = '/add-donations/?cat_id='.concat(id);
@@ -16,11 +21,6 @@ function get_institution_for_category(id) {
         }
     });
 }
-
-
-document.addEventListener("DOMContentLoaded", function() {
-
-
 
   var next = $(".btn.next-step");
   console.log(next);
@@ -75,21 +75,21 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       const $btn = e.target;
 
-      // // Buttons Active class change
-      // [...this.$buttonsContainer.children].forEach(btn => btn.firstElementChild.classList.remove("active"));
-      // $btn.classList.add("active");
-      //
-      // // Current slide
-      // this.currentSlide = $btn.parentElement.dataset.id;
-      //
-      // // Slides active class change
-      // this.$slidesContainers.forEach(el => {
-      //   el.classList.remove("active");
-      //
-      //   if (el.dataset.id === this.currentSlide) {
-      //     el.classList.add("active");
-      //   }
-      // });
+      // Buttons Active class change
+      [...this.$buttonsContainer.children].forEach(btn => btn.firstElementChild.classList.remove("active"));
+      $btn.classList.add("active");
+
+      // Current slide
+      this.currentSlide = $btn.parentElement.dataset.id;
+
+      // Slides active class change
+      this.$slidesContainers.forEach(el => {
+        el.classList.remove("active");
+
+        if (el.dataset.id === this.currentSlide) {
+          el.classList.add("active");
+        }
+      });
     }
 
     /**
@@ -259,16 +259,13 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.innerText = this.currentStep;
       // TODO: Validation sth
 
+      this.slides.forEach(slide => {
+        slide.classList.remove("active");
 
-
-
-      // this.slides.forEach(slide => {
-      //   slide.classList.remove("active");
-      //
-      //   if (slide.dataset.step == this.currentStep) {
-      //     slide.classList.add("active");
-      //   }
-      // });
+        if (slide.dataset.step == this.currentStep) {
+          slide.classList.add("active");
+        }
+      });
 
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
