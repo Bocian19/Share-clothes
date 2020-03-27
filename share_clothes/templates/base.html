@@ -24,6 +24,9 @@
               <li><a href="#">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
               <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+                {% if user1.is_superuser %}
+              <li><a href="/admin/">Panel administracyjny</a></li>
+                    {% endif %}
             </ul>
           </li>
             {% else %}
