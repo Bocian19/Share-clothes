@@ -24,10 +24,17 @@ class Institution(models.Model):
         (ORGANIZACJA_POZARZADOWA, "Organizacja pozarządowa"),
         (ZBIORKA_LOKALNA, "Zbiórka lokalna")]
 
-    name = models.CharField(max_length=64, null=False)
-    description = models.TextField(null=True)
-    type = models.CharField(choices=TYPE_CHOICES, default=FUNDACJA, max_length=3)
-    categories = models.ManyToManyField(Category)
+    name = models.CharField(max_length=64, null=False, verbose_name="Nazwa")
+    description = models.TextField(null=True, verbose_name="Opis")
+    type = models.CharField(choices=TYPE_CHOICES, default=FUNDACJA, max_length=3, verbose_name="Typ organizacji")
+    categories = models.ManyToManyField(Category, verbose_name="Kategoria")
+
+    class Meta:
+        verbose_name = "Instytucja"
+        verbose_name_plural = "Instytucje"
+
+    def __str__(self):
+        return self.name
 
 
 class Donation(models.Model):

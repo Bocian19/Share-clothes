@@ -64,6 +64,16 @@ class LoginView(View):
                 return render(request, 'register.html', {'form': form, 'response': response})
 
 
+class UserView(View):
+
+    def get(self, request):
+        user1 = request.user
+        if user1.is_authenticated:
+            return render(request, 'user.html', {"user1": user1})
+        else:
+            return redirect('login')
+
+
 class RegisterView(View):
 
     def get(self, request):
