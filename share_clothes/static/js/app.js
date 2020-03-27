@@ -1,10 +1,4 @@
 
-
-
-
-
-document.addEventListener("DOMContentLoaded", function() {
-
 function get_institution_for_category(id) {
 
     var address = '/add-donations/?cat_id='.concat(id);
@@ -22,17 +16,13 @@ function get_institution_for_category(id) {
     });
 }
 
-  var next = $(".btn.next-step");
-  console.log(next);
-  next[0].addEventListener('click', function () {
-      var cats_checkboxes = $("input#checkbox-id:checked");
-      var list_of_id=[];
-    for (var i=0; i<cats_checkboxes.length; i++) {
-       var id = cats_checkboxes[i].attributes['cat_id'].value;
-        list_of_id.push(id);
-      }
-    (get_institution_for_category(list_of_id));
-    });
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
+
+
+
 
 
   /**
@@ -289,5 +279,16 @@ function get_institution_for_category(id) {
   if (form !== null) {
     new FormSteps(form);
   }
+    var next = $(".btn.next-step");
+  console.log(next);
+  next[0].addEventListener('click', function () {
+      var cats_checkboxes = $("input#checkbox-id:checked");
+      var list_of_id=[];
+    for (var i=0; i<cats_checkboxes.length; i++) {
+       var id = cats_checkboxes[i].attributes['cat_id'].value;
+        list_of_id.push(id);
+      }
+    (get_institution_for_category(list_of_id));
+    });
 
 });
