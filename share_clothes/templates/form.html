@@ -59,12 +59,11 @@
                 {% for category in categories %}
                 <div class="form-group form-group--checkbox" >
               <label>
-                <input
-                        id="checkbox-id"
+                <input id="checkbox-id"
                   type="checkbox"
                   name="categories"
                   value={{ category.id }}
-                        cat_id={{ category.id }}
+                                cat_id={{ category.id }}
                 />
                 <span class="checkbox"></span>
                 <span class="description">{{ category.name }}</span>
@@ -103,7 +102,8 @@
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox">
               <label>
-                <input type="radio" name="organization" value="{{ institution.id }}"/>
+                <input type="radio" name="organization" value="{{ institution.id }}"
+                institution_id={{ institution.id }}/>
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>

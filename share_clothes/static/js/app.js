@@ -4,8 +4,8 @@ function get_institution_for_category(id) {
     var address = '/add-donations/?cat_id='.concat(id);
     $.ajax(
         {
-        type: "GET",
-        url: address,
+          url: address,
+          type: "GET",
         success: function (dupa) {
             var div = $("#institutions");
             div.html(dupa);
@@ -16,13 +16,29 @@ function get_institution_for_category(id) {
     });
 }
 
+function update_summary(data) {
+
+    var address = '/summary/?data='.concat(data);
+    $.ajax(
+        {
+          url: address,
+          type: "GET",
+          dataType: "json",
+
+        success: function (dupa) {
+            var div = $(".summary");
+            div.html(dupa);
+        },
+        error: function (dupa) {
+            alert(dupa);
+        }
+    });
+}
+
+
 
 
 document.addEventListener("DOMContentLoaded", function() {
-
-
-
-
 
 
   /**
@@ -261,6 +277,12 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
+
+
+
+
+
+
     }
 
     /**
@@ -279,8 +301,8 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
     var next = $(".btn.next-step");
-  console.log(next);
   next[0].addEventListener('click', function () {
       var cats_checkboxes = $("input#checkbox-id:checked");
       var list_of_id=[];
@@ -288,7 +310,20 @@ document.addEventListener("DOMContentLoaded", function() {
        var id = cats_checkboxes[i].attributes['cat_id'].value;
         list_of_id.push(id);
       }
-    (get_institution_for_category(list_of_id));
+    if (list_of_id.length > 0) {
+      (get_institution_for_category(list_of_id));
+    }
     });
 
+  next[3].addEventListener('click', function (){
+    var formData = JSON.stringify($(":input").serializeArray());
+    // var form = $(':input');
+    // console.log(JSON.stringify(form));
+    // var final_form = form.serialize();
+    // console.log(JSON.stringify(final_form));
+
+
+    update_summary(formData);
+
+  });
 });

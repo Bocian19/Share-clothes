@@ -9,6 +9,7 @@ from share_clothes.models import Donation, Institution, Category
 from share_clothes.forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+import json
 
 
 class LandingPageView(View):
@@ -42,6 +43,15 @@ def get_institution(request):
         institutions = Institution.objects.all()
 
     return render(request, 'updated_form.html', {'institutions': institutions})
+
+
+def get_form_values(request):
+    income_data = request.GET.get('data')
+    print(type(income_data))
+    institution_id = income_data[0]
+    institution = Institution.objects.get(pk=institution_id)
+
+    return render(request, 'form_summary.html', {'institution': institution})
 
 
 class LoginView(View):
