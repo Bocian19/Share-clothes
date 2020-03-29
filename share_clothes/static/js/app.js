@@ -23,7 +23,6 @@ function update_summary(data) {
         {
           url: address,
           type: "GET",
-          dataType: "json",
 
         success: function (dupa) {
             var div = $(".summary");
@@ -321,8 +320,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // console.log(JSON.stringify(form));
     // var final_form = form.serialize();
     // console.log(JSON.stringify(final_form));
-
-
     update_summary(formData);
 
   });

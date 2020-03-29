@@ -47,11 +47,23 @@ def get_institution(request):
 
 def get_form_values(request):
     income_data = request.GET.get('data')
-    print(type(income_data))
-    institution_id = income_data[0]
+    friendly_data = json.loads(income_data)
+    print(friendly_data)
+    institution_id = friendly_data[2]['value']
     institution = Institution.objects.get(pk=institution_id)
+    packages_quantity = friendly_data[1]['value']
+    category = Category.objects.get(pk=friendly_data[0]['value'])
+    adress = friendly_data[3]['value']
+    city = friendly_data[4]['value']
+    code = friendly_data[5]['value']
+    phone = friendly_data[6]['value']
+    date = friendly_data[7]['value']
+    time = friendly_data[8]['value']
+    more_info = friendly_data[9]['value']
 
-    return render(request, 'form_summary.html', {'institution': institution})
+    return render(request, 'form_summary.html', {'category': category, 'institution': institution, 'bags': packages_quantity,
+                                                 'adress': adress, 'city': city, 'code': code, 'phone': phone,
+                                                 'date': date, 'time': time, 'more_info': more_info })
 
 
 class LoginView(View):

@@ -4,7 +4,7 @@
                   <li>
                     <span class="icon icon-bag"></span>
                     <span class="summary--text"
-                      >4 worki ubrań w dobrym stanie dla dzieci</span
+                      >{{ bags }} worki z kategorii - {{ category.name }}</span
                     >
                   </li>
 
@@ -21,19 +21,23 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li>Prosta 51</li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
+                    <li>{{ adress }}</li>
+                    <li>{{ city }}</li>
+                    <li>{{ code }}</li>
+                    <li>{{ phone }}</li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
+                    <li>{{ date }}</li>
+                    <li>{{ time }}</li>
+                      {% if more_info %}
+                      <li>{{ more_info }}</li>
+                      {% else %}
                     <li>Brak uwag</li>
+                      {% endif %}
                   </ul>
                 </div>
               </div>
