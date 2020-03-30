@@ -52,7 +52,8 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action='{% url 'add-donation' %}' method="post">
+        {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
@@ -69,7 +70,7 @@
                 <span class="description">{{ category.name }}</span>
               </label>
             </div>
-            {% endfor %}
+                {% endfor %}
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn next-step">Dalej</button>

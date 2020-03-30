@@ -252,8 +252,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       });
 
-      // Form submit
-      this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+      // // Form submit
+      // this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
     }
 
     /**
@@ -276,12 +276,6 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
-
-
-
-
-
-
     }
 
     /**
@@ -316,10 +310,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
   next[3].addEventListener('click', function (){
     var formData = JSON.stringify($(":input").serializeArray());
-    // var form = $(':input');
-    // console.log(JSON.stringify(form));
-    // var final_form = form.serialize();
-    // console.log(JSON.stringify(final_form));
     update_summary(formData);
 
   });

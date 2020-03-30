@@ -15,11 +15,12 @@ import json
 class LandingPageView(View):
 
     def get(self, request):
+        user1 = request.user
         quantity = Donation.objects.all().aggregate(Sum('quantity'))
         num_of_institutions_granted = Institution.objects.all().count()
         institutions = Institution.objects.all()
         return render(request, 'index.html', {'quantity': quantity, "num_of_institutions": num_of_institutions_granted,
-                                              "institutions": institutions})
+                                              "institutions": institutions, 'user1': user1})
 
 
 class AddDonationView(View):
@@ -30,6 +31,29 @@ class AddDonationView(View):
             return render(request, 'form.html', {"user1": user1, 'categories': Category.objects.all(), 'institutions': Institution.objects.all()})
         else:
             return redirect('login')
+
+    def post(self, request):
+        if request.method == 'POST':
+            quantity = request.POST.get('bags')
+            address = request.POST.get('address')
+            phone_number = request.POST.get('phone')
+            city = request.POST.get('city')
+            zip_code = request.POST.get('postcode')
+            pick_up_comment = request.POST.get('more_info')
+            institution_id = request.POST.get('organization')
+            pick_up_date = request.POST.get('data')
+            pick_up_time = request.POST.get('time')
+            new_donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number, city=city,
+                                               zip_code=zip_code, pick_up_comment=pick_up_comment, institution_id=institution_id,
+                                               pick_up_date=pick_up_date, pick_up_time=pick_up_time)
+            if new_donation:
+                new_donation.save()
+                return render(request, 'form-confirmation.html')
+            else:
+                info = "Nie udało się zaipsać formularza"
+                return render(request, 'form-confirmation.html', {'info': info})
+        info = 'Coś poszło nie tak'
+        return redirect(request, 'form-confirmation.html', {'info': info})
 
 
 def get_institution(request):
@@ -48,18 +72,17 @@ def get_institution(request):
 def get_form_values(request):
     income_data = request.GET.get('data')
     friendly_data = json.loads(income_data)
-    print(friendly_data)
-    institution_id = friendly_data[2]['value']
+    institution_id = friendly_data[3]['value']
     institution = Institution.objects.get(pk=institution_id)
-    packages_quantity = friendly_data[1]['value']
-    category = Category.objects.get(pk=friendly_data[0]['value'])
-    adress = friendly_data[3]['value']
-    city = friendly_data[4]['value']
-    code = friendly_data[5]['value']
-    phone = friendly_data[6]['value']
-    date = friendly_data[7]['value']
-    time = friendly_data[8]['value']
-    more_info = friendly_data[9]['value']
+    packages_quantity = friendly_data[2]['value']
+    category = Category.objects.get(pk=friendly_data[1]['value'])
+    adress = friendly_data[4]['value']
+    city = friendly_data[5]['value']
+    code = friendly_data[6]['value']
+    phone = friendly_data[7]['value']
+    date = friendly_data[8]['value']
+    time = friendly_data[9]['value']
+    more_info = friendly_data[10]['value']
 
     return render(request, 'form_summary.html', {'category': category, 'institution': institution, 'bags': packages_quantity,
                                                  'adress': adress, 'city': city, 'code': code, 'phone': phone,
@@ -84,6 +107,13 @@ class LoginView(View):
             else:
                 response = "Brak użytkownia"
                 return render(request, 'register.html', {'form': form, 'response': response})
+
+
+class FormConfirmationView(View):
+
+    def post(self, request):
+        user1 = request.user
+        return render(request, 'form-confirmation.html', {'user1': user1})
 
 
 class UserView(View):
