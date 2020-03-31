@@ -15,6 +15,7 @@
     {% block headerMain %}
   <header class="header--main-page">
   {% endblock %}
+    {% block nav70 %}
 <nav class="container container--70">
           {% if user1 %}
               <ul class="nav--actions">
@@ -48,6 +49,7 @@
           <li><a href="{% url 'homepage' %}#contact" class="btn btn--without-border">Kontakt</a></li>
         </ul>
       </nav>
+        {% endblock %}
   {% block slogan %}
    <div class="slogan container container--90">
         <div class="slogan--item">
@@ -59,8 +61,8 @@
       </div>
       {% endblock %}
   </header>
-
 {% endblock %}
+
 
 {% block content %}
 {% endblock %}

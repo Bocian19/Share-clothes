@@ -11,7 +11,7 @@
                   <li>
                     <span class="icon icon-hand"></span>
                     <span class="summary--text"
-                      >Dla fundacji {{ institution.name }} w Warszawie</span
+                      >Dla fundacji "{{ institution.name }}"</span
                     >
                   </li>
                 </ul>
@@ -21,18 +21,18 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li>{{ adress }}</li>
-                    <li>{{ city }}</li>
-                    <li>{{ code }}</li>
-                    <li>{{ phone }}</li>
+                    <li>ulica: {{ adress }}</li>
+                    <li>Miast: {{ city }}</li>
+                    <li>Kod pocztowy: {{ code }}</li>
+                    <li>Tel.: {{ phone }}</li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li>{{ date }}</li>
-                    <li>{{ time }}</li>
+                    <li>Data: {{ date }}</li>
+                    <li>Godzina: {{ time }}</li>
                       {% if more_info %}
                       <li>{{ more_info }}</li>
                       {% else %}

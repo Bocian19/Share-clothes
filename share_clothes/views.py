@@ -116,8 +116,10 @@ class LoginView(View):
 class FormConfirmationView(View):
 
     def post(self, request):
-        user1 = request.user
-        return render(request, 'form-confirmation.html', {'user1': user1})
+        if request.method == 'POST':
+            user1 = request.user
+            if user1.is_authenticated:
+                return render(request, 'form-confirmation.html', {'user1': user1})
 
 
 class UserView(View):
