@@ -34,6 +34,7 @@ class AddDonationView(View):
 
     def post(self, request):
         if request.method == 'POST':
+            user1 = request.user
             quantity = request.POST.get('bags')
             address = request.POST.get('address')
             phone_number = request.POST.get('phone')
@@ -43,7 +44,7 @@ class AddDonationView(View):
             institution_id = request.POST.get('organization')
             pick_up_date = request.POST.get('data')
             pick_up_time = request.POST.get('time')
-            new_donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number, city=city,
+            new_donation = Donation.objects.create(user_id=user1.id, quantity=quantity, address=address, phone_number=phone_number, city=city,
                                                zip_code=zip_code, pick_up_comment=pick_up_comment, institution_id=institution_id,
                                                pick_up_date=pick_up_date, pick_up_time=pick_up_time)
             if new_donation:
@@ -121,6 +122,7 @@ class UserView(View):
     def get(self, request):
         user1 = request.user
         if user1.is_authenticated:
+
             return render(request, 'user.html', {"user1": user1})
         else:
             return redirect('login')
