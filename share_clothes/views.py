@@ -23,6 +23,7 @@ class LandingPageView(View):
                                               "institutions": institutions, 'user1': user1})
 
 
+
 class AddDonationView(View):
 
     def get(self, request):
@@ -91,6 +92,19 @@ def get_form_values(request):
     return render(request, 'form_summary.html', {'category': category, 'institution': institution, 'bags': packages_quantity,
                                                  'adress': adress, 'city': city, 'code': code, 'phone': phone,
                                                  'date': date, 'time': time, 'more_info': more_info })
+
+
+def get_update(request):
+    user1 = request.user
+    id = request.GET.get('id')
+    print(id)
+    updated_donation = Donation.objects.get(pk=id)
+    updated_donation.is_taken = True
+    updated_donation.save()
+    if user1.is_authenticated:
+        donations = Donation.objects.filter(user_id=user1.id)
+        return render(request, 'user.html', {"user1": user1, 'donations': donations})
+    return redirect('login')
 
 
 class LoginView(View):

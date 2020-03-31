@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
   {% block slogan %}
 
-        <div class="slogan--item" style="margin-left: 50%">
+        <div class="slogan--item" style="margin-left: 40%">
             <h3>Twoje dane użytkownika</h3>
           <h4>Imię: {{ user1.first_name }}</h4>
           <h4>Nazwisko: {{ user1.last_name }}</h4>
@@ -9,19 +9,16 @@
 
        {% if donations %}
             <h3>Twoja lista przekazanych darów</h3>
+           <ul id="donation_list">
            {% for donation in donations %}
-
-       <h4>Ilość worków: {{ donation.quantity }}</h4>
-
-       <h4>Organizacja: {{ donation.institution.name }}</h4>
-           {% for categories in donation.categories.all %}
-       <h4>Kategorie: {{ categories.name }}</h4>
-               {% endfor %}
-       <h4>Data przekazania: {{ donation.pick_up_date }}</h4>
-               <br>
+       <li>Ilość worków: {{ donation.quantity }} Organizacja: {{ donation.institution.name }}
+           {% for categories in donation.categories.all %} Kategorie: {{ categories.name }}
+               {% endfor %} Data przekazania: {{ donation.pick_up_date }} Przekazano? {{ donation.is_taken }}
+           <label for="is_taken">Czy został odebrany? </label><input type="checkbox" id="is_taken" don_id="{{ donation.id }}" name="is taken"></li>
            {% endfor %}
+           </ul>
         {% endif %}
-            </div>
+        </div>
 
       {% endblock %}
 

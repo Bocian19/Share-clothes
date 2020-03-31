@@ -37,8 +37,35 @@ function update_summary(data) {
 
 
 
+
 document.addEventListener("DOMContentLoaded", function() {
 
+function update_status(id){
+        var address = '/update-donation/?id='.concat(id);
+    $.ajax(
+        {
+          url: address,
+          type: "GET",
+
+        success: function (dupa) {
+
+        },
+        error: function (dupa) {
+            alert(dupa);
+        }
+    });
+}
+    var checkBox = document.querySelectorAll('#is_taken');
+    for (var a=0; a<checkBox.length; a++ ) {
+      checkBox[a].addEventListener('click', function () {
+          this.parentElement.style.color = 'grey';
+          this.style.display = 'none';
+          this.parentElement.parentElement.appendChild(this.parentElement);
+          console.log(this.parentElement.parentElement);
+          var don_id = this.attributes['don_id'].value;
+          update_status(don_id);
+      })
+    }
 
   /**
    * HomePage - Help section
@@ -313,4 +340,5 @@ document.addEventListener("DOMContentLoaded", function() {
     update_summary(formData);
 
   });
+
 });
