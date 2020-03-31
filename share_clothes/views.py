@@ -23,7 +23,6 @@ class LandingPageView(View):
                                               "institutions": institutions, 'user1': user1})
 
 
-
 class AddDonationView(View):
 
     def get(self, request):
@@ -53,7 +52,7 @@ class AddDonationView(View):
             if new_donation:
                 new_donation.save()
                 new_donation.categories.add(category_id)
-                return render(request, 'form-confirmation.html')
+                return render(request, 'form-confirmation.html', {'user1': user1})
             else:
                 info = "Nie udało się zaipsać formularza"
                 return render(request, 'form-confirmation.html', {'info': info})

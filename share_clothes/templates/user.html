@@ -13,7 +13,7 @@
            {% for donation in donations %}
 
                {% if donation.is_taken %}
-       <li>Ilość worków: {{ donation.quantity }}
+       <li style="font-size: 12px">Ilość worków: {{ donation.quantity }}
            Organizacja: {{ donation.institution.name }}
            {% for categories in donation.categories.all %}
                Kategorie: {{ categories.name }}
