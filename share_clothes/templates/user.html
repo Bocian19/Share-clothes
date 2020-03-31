@@ -11,10 +11,26 @@
             <h3>Twoja lista przekazanych darów</h3>
            <ul id="donation_list">
            {% for donation in donations %}
-       <li>Ilość worków: {{ donation.quantity }} Organizacja: {{ donation.institution.name }}
-           {% for categories in donation.categories.all %} Kategorie: {{ categories.name }}
-               {% endfor %} Data przekazania: {{ donation.pick_up_date }} Przekazano? {{ donation.is_taken }}
+
+               {% if donation.is_taken %}
+       <li>Ilość worków: {{ donation.quantity }}
+           Organizacja: {{ donation.institution.name }}
+           {% for categories in donation.categories.all %}
+               Kategorie: {{ categories.name }}
+               {% endfor %}
+           Data przekazania: {{ donation.pick_up_date }}
+           Przekazano
+                   {% else %}
+                   <li>Ilość worków: {{ donation.quantity }}
+                       Organizacja: {{ donation.institution.name }}
+           {% for categories in donation.categories.all %}
+               Kategorie: {{ categories.name }}
+               {% endfor %}
+                       Data przekazania: {{ donation.pick_up_date }}
+                       Przekazano? {{ donation.is_taken }}
            <label for="is_taken">Czy został odebrany? </label><input type="checkbox" id="is_taken" don_id="{{ donation.id }}" name="is taken"></li>
+               {% endif %}
+
            {% endfor %}
            </ul>
         {% endif %}
