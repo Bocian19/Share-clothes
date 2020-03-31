@@ -44,11 +44,14 @@ class AddDonationView(View):
             institution_id = request.POST.get('organization')
             pick_up_date = request.POST.get('data')
             pick_up_time = request.POST.get('time')
+            category_id = request.POST.get('categories')
             new_donation = Donation.objects.create(user_id=user1.id, quantity=quantity, address=address, phone_number=phone_number, city=city,
                                                zip_code=zip_code, pick_up_comment=pick_up_comment, institution_id=institution_id,
                                                pick_up_date=pick_up_date, pick_up_time=pick_up_time)
+
             if new_donation:
                 new_donation.save()
+                new_donation.categories.add(category_id)
                 return render(request, 'form-confirmation.html')
             else:
                 info = "Nie udało się zaipsać formularza"
@@ -122,8 +125,8 @@ class UserView(View):
     def get(self, request):
         user1 = request.user
         if user1.is_authenticated:
-
-            return render(request, 'user.html', {"user1": user1})
+            donations = Donation.objects.filter(user_id=user1.id)
+            return render(request, 'user.html', {"user1": user1, 'donations': donations})
         else:
             return redirect('login')
 
