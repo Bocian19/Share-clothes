@@ -18,7 +18,7 @@
   {% endblock %}
     {% block nav70 %}
 <nav class="container container--70">
-          {% if user1 %}
+          {% if user1.is_authenticated %}
               <ul class="nav--actions">
           <li class="logged-user">
           Witaj {{ user1 }}
@@ -28,9 +28,7 @@
               <li><a href="{% url 'logout' %}">Wyloguj</a></li>
                 {% if user1.is_superuser %}
               <li><a href="/admin/">Panel administracyjny</a></li>
-                      {% if user1.is_authenticated %}
               <li><a href="/user/">Profil</a></li>
-                    {% endif %}
                     {% endif %}
             </ul>
           </li>
