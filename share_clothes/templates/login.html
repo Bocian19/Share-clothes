@@ -7,6 +7,15 @@
 {% block content %}
   <body>
     <section class="login-page">
+        {% if info %}
+        <h2>{{ info }}</h2>
+      <form action="#" method="post">
+        <div class="form-group">
+            {% csrf_token %}
+       {{ form.as_p }}
+          <button class="btn" type="submit">Potwierdź</button>
+        </div>
+        {% else %}
       <h2>Zaloguj się</h2>
       <form action="#" method="post">
         <div class="form-group">
@@ -15,6 +24,7 @@
           <a href="{% url 'register' %}" class="btn btn--without-border">Załóż konto</a>
           <button class="btn" type="submit">Zaloguj się</button>
         </div>
+          {% endif %}
       </form>
     </section>
   </body>

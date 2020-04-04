@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.shortcuts import render
 
@@ -6,10 +8,11 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from share_clothes.models import Donation, Institution, Category
-from share_clothes.forms import RegisterForm, LoginForm
+from share_clothes.forms import RegisterForm, LoginForm, UpdateUserForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 import json
+from django.views.generic.edit import UpdateView
 
 
 class LandingPageView(View):
@@ -145,6 +148,17 @@ class UserView(View):
         else:
             return redirect('login')
 
+    def post(self, request):
+        user1 = request.user
+        f = UpdateUserForm(request.POST, instance=user1)
+        if f.is_valid():
+            pasword_new = request.POST.get('password')
+            user1.set_password(pasword_new)
+            f.save()
+            user1.save()
+            donations = Donation.objects.filter(user_id=user1.id)
+            return render(request, "user.html", {'user1': user1, 'donations': donations})
+
 
 class RegisterView(View):
 
@@ -164,7 +178,8 @@ class RegisterView(View):
                 return render(request, 'register.html', {'form': form})
             except:
                 if confirm_password == password:
-                    new_user = User.objects.create_user(username=username, password=password)
+                    new_user = User.objects.create_user(username=username)
+                    new_user.set_password(password)
                     new_user.save()
                     return redirect('login')
                 else:
@@ -179,5 +194,43 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect(reverse_lazy('homepage'))
+
+
+class UpdateUserView(View):
+
+    def get(self, request):
+        user1 = request.user
+        login_form = LoginForm(initial={'username': user1.username})
+        info = 'Proszę najpierw o podanie hasła'
+        return render(request, 'login.html', {'form': login_form, 'info': info, 'user1': user1})
+
+    def post(self, request):
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user1 = authenticate(username=username, password=password)
+            if user1 is not None:
+                form = UpdateUserForm(instance=user1)
+                return render(request, "update_user_form.html", {"form": form, 'user1': user1})
+
+            return redirect('login')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

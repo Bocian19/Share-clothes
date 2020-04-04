@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block slogan %}
+
+<div style="margin-left: 50%; margin-top: 20px; font-size: large">
+
+<form action="{% url 'user' %}" method="post">
+
+{% csrf_token %}
+    {{ form.as_ul }}<br>
+    <div style="font-size: large"><input type="submit" value="Zapisz"></div>
+
+</form>
+
+    </div>
+{% endblock %}
+{% block content %}
+{% endblock %}

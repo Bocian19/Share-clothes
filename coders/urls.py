@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from share_clothes.views import LandingPageView, LoginView, AddDonationView, RegisterView, LogoutView, get_institution, \
-    UserView, get_form_values, FormConfirmationView, get_update
+    UserView, get_form_values, FormConfirmationView, get_update, UpdateUserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,7 @@ urlpatterns = [
     path('summary/', get_form_values, name='summary'),
     path('form_confirmation/', FormConfirmationView.as_view, name='form-confirmation'),
     path('update-donation/', get_update, name='update-donation'),
+    path('update-user/', UpdateUserView.as_view(), name='update-user'),
+
+
 ]

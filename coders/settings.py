@@ -122,3 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = '/login/'
+
+# ABSOLUTE_URL_OVERRIDES = {
+#     'auth_user': lambda o: "/user/%s/" % o.id,
+# }

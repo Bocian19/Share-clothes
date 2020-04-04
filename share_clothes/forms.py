@@ -1,5 +1,7 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.validators import EmailValidator
+from django.forms import ModelForm
 
 
 class RegisterForm(forms.Form):
@@ -12,3 +14,11 @@ class LoginForm(forms.Form):
     username = forms.CharField(validators=[EmailValidator], widget=forms.EmailInput(attrs={'placeholder': 'Email'}), label='')
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}), label='')
 
+
+class UpdateUserForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Nowe hasło'}), label='')
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Powtórz hasło'}), label='')
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
