@@ -6,12 +6,12 @@ function get_institution_for_category(id) {
         {
           url: address,
           type: "GET",
-        success: function (dupa) {
+        success: function (dapa) {
             var div = $("#institutions");
-            div.html(dupa);
+            div.html(dapa);
         },
-        error: function (dupa) {
-            alert(dupa);
+        error: function (dapa) {
+            alert(dapa);
         }
     });
 }
@@ -24,12 +24,12 @@ function update_summary(data) {
           url: address,
           type: "GET",
 
-        success: function (dupa) {
+        success: function (dapa) {
             var div = $(".summary");
-            div.html(dupa);
+            div.html(dapa);
         },
-        error: function (dupa) {
-            alert(dupa);
+        error: function (dapa) {
+            alert(dapa);
         }
     });
 }
@@ -336,7 +336,7 @@ function update_status(id){
     });
 
   next[3].addEventListener('click', function (){
-    var formData = JSON.stringify($(":input").serializeArray());
+    var formData = JSON.parse($(":input"));
     update_summary(formData);
 
   });
