@@ -12,7 +12,7 @@ from share_clothes.forms import RegisterForm, LoginForm, UpdateUserForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 import json
-from django.views.generic.edit import UpdateView
+from django.core.paginator import Paginator
 
 
 class LandingPageView(View):
@@ -21,9 +21,31 @@ class LandingPageView(View):
         user1 = request.user
         quantity = Donation.objects.all().aggregate(Sum('quantity'))
         num_of_institutions_granted = Institution.objects.all().count()
-        institutions = Institution.objects.all()
+        fundations_list = Institution.objects.all().filter(type='Fun')
+        organisations_list = Institution.objects.all().filter(type='Org')
+        collections_list = Institution.objects.all().filter(type='Zb')
+        paginator = Paginator(fundations_list, 5)
+        paginator1 = Paginator(organisations_list, 5)
+        paginator2 = Paginator(collections_list, 5)
+
+        page = request.GET.get('page')
+        fundations = paginator.get_page(page)
+        organisations = paginator1.get_page(page)
+        collections = paginator2.get_page(page)
         return render(request, 'index.html', {'quantity': quantity, "num_of_institutions": num_of_institutions_granted,
-                                              "institutions": institutions, 'user1': user1})
+                                              "fundations": fundations, 'organisations': organisations,
+                                              'collections': collections, 'user1': user1})
+
+
+def get_institution_for_pagination(request):
+    data = request.GET.get('page')
+    page_and_type = data.split(',')
+    page = page_and_type[0]
+    type_of_institution = page_and_type[1]
+    institutions_list = Institution.objects.all().filter(type=type_of_institution)
+    paginator = Paginator(institutions_list, 5)
+
+    return render(request, 'updated_help.html', {'institutions': paginator.get_page(page), 'type': type_of_institution})
 
 
 class AddDonationView(View):

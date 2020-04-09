@@ -67,31 +67,35 @@
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
         <ul class="help--slides-items">
-            {% for institution in institutions %}
-                {% if institution.type == 'Fun' %}
+            {% for fundation in fundations %}
           <li>
             <div class="col">
-              <div class="title">{{ institution.name }}</div>
-              <div class="subtitle">Cel i misja: {{ institution.description }}</div>
+              <div class="title">{{ fundation.name }}</div>
+              <div class="subtitle">Cel i misja: {{ fundation.description }}</div>
             </div>
-
-            <div class="col"><div class="text">{% for category in institution.categories.all %}{{ category }}, {% endfor %}</div></div>
+            <div class="col"><div class="text">{% for category in fundation.categories.all %}{{ category }}, {% endfor %}</div></div>
           </li>
-                {% endif %}
           {% endfor %}
         </ul>
-      </div>
 
+           <div class="help--slides-pagination">
+            <span class="step-links">
+            {% if fundations.has_previous %}
 
-        <!-- Pagination
-        <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-        </ul>
-        -->
+                <li data-page="{{ fundations.previous_page_number }}" data-type="Fun"><a href="?page={{ fundations.previous_page_number }}#help" style="font-size: 16px" class="btn"
+                >Previous</a></li>
+            {% endif %}
 
+            <span class="current">
+                Page {{ fundations.number }} of {{ fundations.paginator.num_pages }}<br>
+            </span>
 
+            {% if fundations.has_next %}
+                <li data-page="{{ fundations.next_page_number }}" data-type="Fun"><a href="?page={{ fundations.next_page_number }}#help" style="font-size: 16px" class="btn">next</a></li>
+            {% endif %}
+                </span>
+            </div>
+       </div>
 
       <!-- SLIDE 2 -->
       <div class="help--slides" data-id="2">
@@ -100,58 +104,67 @@
           quos suscipit corporis!
         </p>
         <ul class="help--slides-items">
-              {% for institution in institutions %}
-                {% if institution.type == 'Org' %}
+              {% for organisation in organisations %}
           <li>
             <div class="col">
-              <div class="title">{{ institution.name }}</div>
-              <div class="subtitle">Cel i misja: {{ institution.description }}</div>
+              <div class="title">{{ organisation.name }}</div>
+              <div class="subtitle">Cel i misja: {{ organisation.description }}</div>
             </div>
-
-            <div class="col"><div class="text">{% for category in institution.categories.all %}{{ category }}, {% endfor %}</div></div>
+            <div class="col"><div class="text">{% for category in organisation.categories.all %}{{ category }}, {% endfor %}</div></div>
           </li>
-                {% endif %}
           {% endfor %}
         </ul>
-      </div>
 
-
-        <!-- Pagination
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="4">4</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="5">5</a></li>
+            <span class="step-links">
+            {% if organisations.has_previous %}
+          <li data-page="2"><a href="?page=2">&laquo;First</a></li>
+                <li data-page="{{ organisations.previous_page_number }}" data-type="Org"><a href="?page={{ organisations.previous_page_number }}#help" class="btn">Previous</a></li>
+            {% endif %}
+
+        <span class="current">
+            Page {{ organisations.number }} of {{ organisations.paginator.num_pages }}<br>
+        </span>
+
+        {% if organisations.has_next %}
+            <li data-page="{{ organisations.next_page_number }}" data-type="Org"><a href="?page={{ organisations.next_page_number }}#help" class="btn">next</a></li>
+        {% endif %}
+            </span>
         </ul>
-        -->
+      </div>
 
 
       <!-- SLIDE 3 -->
       <div class="help--slides" data-id="3">
         <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
         <ul class="help--slides-items">
-      {% for institution in institutions %}
-                {% if institution.type == 'Zb' %}
+      {% for collection in collections %}
           <li>
             <div class="col">
-              <div class="title">{{ institution.name }}</div>
-              <div class="subtitle">Cel i misja: {{ institution.description }}</div>
+              <div class="title">{{ collection.name }}</div>
+              <div class="subtitle">Cel i misja: {{ collection.description }}</div>
             </div>
 
-            <div class="col"><div class="text">{% for category in institution.categories.all %}{{ category }}, {% endfor %}</div></div>
+            <div class="col"><div class="text">{% for category in collection.categories.all %}{{ category }}, {% endfor %}</div></div>
           </li>
-                {% endif %}
           {% endfor %}
         </ul>
-    </div>
-
-        <!-- Pagination
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
+            <span class="step-links">
+            {% if collections.has_previous %}
+                <li data-page="{{ collections.previous_page_number }}" data-type="Zb"><a href="?page={{ collections.previous_page_number }}" class="btn">Previous</a></li>
+            {% endif %}
+
+        <span class="current">
+            Page {{ collections.number }} of {{ collections.paginator.num_pages }}<br>
+        </span>
+
+        {% if collections.has_next %}
+            <li data-page="{{ collections.next_page_number }}" data-type="Zb"><a href="?page={{ collections.next_page_number }}"  class="btn">next</a></li>
+        {% endif %}
+            </span>
         </ul>
-        -->
+    </div>
 
      <script src="{% static 'js/app.js' %}"></script>
     </section>

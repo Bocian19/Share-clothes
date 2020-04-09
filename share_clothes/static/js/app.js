@@ -34,7 +34,22 @@ function update_summary(data) {
     });
 }
 
+function get_institution_for_pagination(id) {
 
+    var address = '/update-pagination/?page='.concat(id);
+    $.ajax(
+        {
+          url: address,
+          type: "GET",
+        success: function (dapa) {
+            var div = $(".help--slides.active");
+            div.html(dapa);
+        },
+        error: function (dapa) {
+            alert(dapa);
+        }
+    });
+}
 
 
 
@@ -97,8 +112,12 @@ function update_status(id){
        * Pagination buttons
        */
       this.$el.addEventListener("click", e => {
-        if (e.target.classList.contains("btn") && e.target.parentElement.parentElement.classList.contains("help--slides-pagination")) {
-          this.changePage(e);
+        if (e.target.classList.contains("btn") && e.target.parentElement.parentElement.parentElement.classList.contains("help--slides-pagination")) {
+            console.log(e.target.parentElement.parentElement.parentElement);
+            e.preventDefault();
+            this.changePage(e);
+            // classList.add("active")
+
         }
       });
     }
@@ -129,11 +148,16 @@ function update_status(id){
      */
     changePage(e) {
       e.preventDefault();
-      const page = e.target.dataset.page;
+      const page = e.target.parentElement.dataset.page;
+      const type = e.target.parentElement.dataset.type;
+      const info_list = [];
+      info_list.push(page, type);
+      get_institution_for_pagination(info_list);
 
-      console.log(page);
     }
   }
+
+
   const helpSection = document.querySelector(".help");
   if (helpSection !== null) {
     new Help(helpSection);
