@@ -127,3 +127,4 @@ LOGIN_URL = '/login/'
 # ABSOLUTE_URL_OVERRIDES = {
 #     'auth_user': lambda o: "/user/%s/" % o.id,
 # }
+

@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
+  {% block slogan %}
+   <div class="slogan container container--90">
+        <div class="slogan--item">
+          <h1>
+              {% if conf_info %}
+              {{ conf_info }}<br />
+              {% endif %}
+            Zacznij pomagać!<br />
+            Oddaj niechciane rzeczy w zaufane ręce
+          </h1>
+        </div>
+      </div>
+      {% endblock %}
 {% block content %}
   <body>
     <section id="stats" class="stats">

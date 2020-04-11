@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from share_clothes.views import LandingPageView, LoginView, AddDonationView, RegisterView, LogoutView, get_institution, \
-    UserView, get_form_values, FormConfirmationView, get_update, UpdateUserView, get_institution_for_pagination
+    UserView, get_form_values, FormConfirmationView, get_update, UpdateUserView, get_institution_for_pagination,\
+    activate
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +34,8 @@ urlpatterns = [
     path('update-donation/', get_update, name='update-donation'),
     path('update-user/', UpdateUserView.as_view(), name='update-user'),
     path('update-pagination/', get_institution_for_pagination, name='update-pagination'),
-
+    # url(r'^signup/$', signup, name='signup'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        activate, name='activate'),
 
 ]

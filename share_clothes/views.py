@@ -1,11 +1,16 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sites.shortcuts import get_current_site
 from django.db.models import Sum
 from django.shortcuts import render
+from django.core.mail import EmailMessage
 
 # Create your views here.
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from share_clothes.models import Donation, Institution, Category
 from share_clothes.forms import RegisterForm, LoginForm, UpdateUserForm
@@ -13,6 +18,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 import json
 from django.core.paginator import Paginator
+
+from share_clothes.tokens import account_activation_token
 
 
 class LandingPageView(View):
@@ -182,6 +189,9 @@ class UserView(View):
             return render(request, "user.html", {'user1': user1, 'donations': donations})
 
 
+
+
+
 class RegisterView(View):
 
     def get(self, request):
@@ -195,21 +205,57 @@ class RegisterView(View):
             password = form.cleaned_data['password']
             confirm_password = form.cleaned_data['confirm_password']
             try:
-                User.objects.get(username=username)
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                user = None
+            if user is not None:
                 form.add_error('user', 'Użytkownik z tym adresem e-mail już jest zarejestrowany')
                 return render(request, 'register.html', {'form': form})
-            except:
+            else:
                 if confirm_password == password:
                     new_user = User.objects.create_user(username=username)
                     new_user.set_password(password)
+                    new_user.is_active = False
                     new_user.save()
-                    return redirect('login')
+                    current_site = get_current_site(request)
+                    mail_subject = 'Aktywacja konta na portalu AddDonation.'
+                    message = render_to_string('activation_email.html', {
+                        'user': new_user,
+                        'domain': current_site.domain,
+                        'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
+                        'token': account_activation_token.make_token(new_user),
+                    })
+                    to_email = form.cleaned_data.get('username')
+                    email = EmailMessage(
+                    mail_subject, message, to=[to_email]
+                    )
+                    email.send()
+                    message = 'Wysłaliśmy na twój adres email link do atywacji konto.'
+                    return render(request, 'register.html', {'message': message} )
                 else:
                     form.add_error('confirm_password', 'Powtórzone hasło jest inne niż pierwsze')
                     return render(request, 'register.html', {'form': form})
         else:
+            form = RegisterForm
             return render(request, 'register.html', {'form': form})
 
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        # return redirect('home')
+        conf_info = "Dziękujemy za potwierdzenie konta użytkwnika"
+        return render(request, 'index.html', {'user1': request.user, 'conf_info': conf_info})
+    else:
+        message = 'Link aktywacyjny stracił ważność'
+        return render(request, 'register.html', {'message': message} )
 
 class LogoutView(View):
 
