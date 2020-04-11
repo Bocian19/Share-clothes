@@ -16,8 +16,8 @@ class LoginForm(forms.Form):
 
 
 class UpdateUserForm(ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Nowe hasło'}), label='')
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Powtórz hasło'}), label='')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Nowe hasło'}), label='', required=False)
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Powtórz hasło'}), label='', required=False)
 
     class Meta:
         model = User
