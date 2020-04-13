@@ -206,7 +206,7 @@ fabric.properties
 .idea/**/markdown-navigator.xml
 .idea/**/markdown-navigator/
 
-coders/email_credentials.doc
+coders/email_credentials.py
 ### Python ###
 # Byte-compiled / optimized / DLL files
 

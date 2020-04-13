@@ -19,8 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0c1=_5(rf33lz_!kw+_!%az=y@90wu5+mtqi!0)xy)*gf*^od4'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -74,15 +73,7 @@ WSGI_APPLICATION = 'coders.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-        'HOST': '127.0.0.1',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'charity-donation',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-    }
-}
+
 
 
 # Password validation
@@ -127,4 +118,10 @@ LOGIN_URL = '/login/'
 # ABSOLUTE_URL_OVERRIDES = {
 #     'auth_user': lambda o: "/user/%s/" % o.id,
 # }
-
+try:
+    from .email_credentials import EMAIL_HOST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, EMAIL_PORT, EMAIL_USE_TLS,\
+        SECRET_KEY, DATABASES
+except ModuleNotFoundError:
+    print("Brak podanych informacji w pliku email_credentials.py!")
+    print("Uzupełnij dane i spróbuj ponownie!")
+    exit(0)
