@@ -213,7 +213,7 @@ class RegisterView(View):
                 return render(request, 'register.html', {'form': form})
             else:
                 if confirm_password == password:
-                    new_user = User.objects.create_user(username=username)
+                    new_user = User.objects.create_user(username=username, email=username)
                     new_user.set_password(password)
                     new_user.is_active = False
                     new_user.save()
@@ -282,7 +282,6 @@ class UpdateUserView(View):
                 return render(request, "update_user_form.html", {"form": form, 'user1': user1})
 
             return redirect('login')
-
 
 
 

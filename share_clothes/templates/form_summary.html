@@ -1,43 +1,43 @@
-    <div class="form-section">
-                <h4>Oddajesz:</h4>
-                <ul>
-                  <li>
-                    <span class="icon icon-bag"></span>
-                    <span class="summary--text"
-                      >{{ bags }} worki z kategorii - {{ category.name }}</span
-                    >
-                  </li>
+<div class="form-section">
+    <h4>Oddajesz:</h4>
+    <ul>
+        <li>
+            <span class="icon icon-bag"></span>
+            <span class="summary--text"
+            >{{ bags }} worki z kategorii - {{ category.name }}</span
+            >
+        </li>
 
-                  <li>
-                    <span class="icon icon-hand"></span>
-                    <span class="summary--text"
-                      >Dla fundacji "{{ institution.name }}"</span
-                    >
-                  </li>
-                </ul>
-              </div>
+        <li>
+            <span class="icon icon-hand"></span>
+            <span class="summary--text"
+            >Dla fundacji "{{ institution.name }}"</span
+            >
+        </li>
+    </ul>
+</div>
 
-              <div class="form-section form-section--columns">
-                <div class="form-section--column">
-                  <h4>Adres odbioru:</h4>
-                  <ul>
-                    <li>ulica: {{ adress }}</li>
-                    <li>Miast: {{ city }}</li>
-                    <li>Kod pocztowy: {{ code }}</li>
-                    <li>Tel.: {{ phone }}</li>
-                  </ul>
-                </div>
+<div class="form-section form-section--columns">
+    <div class="form-section--column">
+        <h4>Adres odbioru:</h4>
+        <ul>
+            <li>ulica: {{ adress }}</li>
+            <li>Miast: {{ city }}</li>
+            <li>Kod pocztowy: {{ code }}</li>
+            <li>Tel.: {{ phone }}</li>
+        </ul>
+    </div>
 
-                <div class="form-section--column">
-                  <h4>Termin odbioru:</h4>
-                  <ul>
-                    <li>Data: {{ date }}</li>
-                    <li>Godzina: {{ time }}</li>
-                      {% if more_info %}
-                      <li>{{ more_info }}</li>
-                      {% else %}
-                    <li>Brak uwag</li>
-                      {% endif %}
-                  </ul>
-                </div>
-              </div>
+    <div class="form-section--column">
+        <h4>Termin odbioru:</h4>
+        <ul>
+            <li>Data: {{ date }}</li>
+            <li>Godzina: {{ time }}</li>
+            {% if more_info %}
+                <li>{{ more_info }}</li>
+            {% else %}
+                <li>Brak uwag</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

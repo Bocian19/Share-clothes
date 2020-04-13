@@ -120,7 +120,7 @@ LOGIN_URL = '/login/'
 # }
 try:
     from .email_credentials import EMAIL_HOST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, EMAIL_PORT, EMAIL_USE_TLS,\
-        SECRET_KEY, DATABASES
+        SECRET_KEY, DATABASES, DEFAULT_FROM_EMAIL
 except ModuleNotFoundError:
     print("Brak podanych informacji w pliku email_credentials.py!")
     print("Uzupełnij dane i spróbuj ponownie!")
