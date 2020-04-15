@@ -5,6 +5,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.db.models import Sum
 from django.shortcuts import render
 from django.core.mail import EmailMessage
+from django.contrib.auth.password_validation import MinimumLengthValidator
 
 # Create your views here.
 from django.template.loader import render_to_string
@@ -209,7 +210,7 @@ class RegisterView(View):
             except User.DoesNotExist:
                 user = None
             if user is not None:
-                form.add_error('user', 'Użytkownik z tym adresem e-mail już jest zarejestrowany')
+                form.add_error('username', 'Użytkownik z tym adresem e-mail już jest zarejestrowany')
                 return render(request, 'register.html', {'form': form})
             else:
                 if confirm_password == password:
@@ -236,7 +237,7 @@ class RegisterView(View):
                     form.add_error('confirm_password', 'Powtórzone hasło jest inne niż pierwsze')
                     return render(request, 'register.html', {'form': form})
         else:
-            form = RegisterForm
+            form = RegisterForm(request.POST)
             return render(request, 'register.html', {'form': form})
 
 

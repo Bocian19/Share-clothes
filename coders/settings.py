@@ -92,6 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+
 ]
 
 
@@ -114,6 +115,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
+
 
 # ABSOLUTE_URL_OVERRIDES = {
 #     'auth_user': lambda o: "/user/%s/" % o.id,
