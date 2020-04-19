@@ -9,6 +9,7 @@ class Category(models.Model):
 
     class Meta:
         ordering = ['name']
+        verbose_name_plural = 'Kategorie'
 
     def __str__(self):
         return self.name
@@ -40,22 +41,25 @@ class Institution(models.Model):
 class Donation(models.Model):
     quantity = models.IntegerField(verbose_name="Liczba worków")
     categories = models.ManyToManyField(Category)
-    institution = models.ForeignKey(Institution, on_delete=models.PROTECT)
-    address = models.CharField(null=False, max_length=64)
-    phone_number = models.CharField(max_length=26)
-    city = models.CharField(max_length=36)
-    zip_code = models.CharField(max_length=20)
-    pick_up_date = models.DateField(auto_now=False,  auto_now_add=False, blank=True, default=None)
-    pick_up_time = models.TimeField(blank=True, default=None)
-    pick_up_comment = models.CharField(max_length=64)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    address = models.CharField(null=False, max_length=64, verbose_name='Adres')
+    phone_number = models.CharField(max_length=26, verbose_name='numer telefonu')
+    city = models.CharField(max_length=36, verbose_name='Miasto')
+    zip_code = models.CharField(max_length=20, verbose_name='Kod pocztowy')
+    pick_up_date = models.DateField(auto_now=False,  auto_now_add=False, blank=True, default=None,
+                                    verbose_name='Data odbioru')
+    pick_up_time = models.TimeField(blank=True, default=None, verbose_name='Godzina odbioru')
+    pick_up_comment = models.CharField(max_length=64, null=True, verbose_name='Komentarz')
     user = models.ForeignKey(User, blank=True, default=None, on_delete=models.CASCADE, null=True)
-    is_taken = models.BooleanField(verbose_name='Dar odebrany', null=True,)
-    date_updated = models.DateTimeField(auto_now=True)
+    is_taken = models.BooleanField(verbose_name='Dar odebrany', null=True)
+    date_updated = models.DateTimeField(auto_now=True, verbose_name='Data aktualizacji')
 
+    class Meta:
+        verbose_name = 'Datek'
+        verbose_name_plural= 'Datki'
 
-
-
-
+    def __str__(self):
+        return self.institution.name
 
 
 
