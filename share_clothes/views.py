@@ -36,13 +36,37 @@ class LandingPageView(View):
         paginator1 = Paginator(organisations_list, 5)
         paginator2 = Paginator(collections_list, 5)
 
-        page = request.GET.get('page')
+        page = 1
         fundations = paginator.get_page(page)
         organisations = paginator1.get_page(page)
         collections = paginator2.get_page(page)
         return render(request, 'index.html', {'quantity': quantity, "num_of_institutions": num_of_institutions_granted,
                                               "fundations": fundations, 'organisations': organisations,
                                               'collections': collections, 'user1': user1})
+
+    def post(self, request):
+        if request.method == 'POST':
+            name = request.POST.get('name')
+            last_name = request.POST.get('surname')
+            message = request.POST.get('message')
+            current_site = get_current_site(request)
+            mail_subject = 'Wiadomość od użytkonika poralu AddDOnation.'
+            message = render_to_string('message.html', {
+                'name': name,
+                'last_name': last_name,
+                'domain': current_site.domain,
+                'message': message
+            })
+            admins = User.objects.all().filter(is_staff=True).filter(is_active=True)
+            to_email = []
+            for admin in admins:
+                to_email.append(admin.email)
+            email = EmailMessage(
+                mail_subject, message, to=to_email
+            )
+            email.send()
+            message = 'Wiadomość została wysłana.'
+            return render(request, 'register.html', {'message': message})
 
 
 def get_institution_for_pagination(request):
@@ -61,7 +85,8 @@ class AddDonationView(View):
     def get(self, request):
         user1 = request.user
         if user1.is_authenticated:
-            return render(request, 'form.html', {"user1": user1, 'categories': Category.objects.all(), 'institutions': Institution.objects.all()})
+            return render(request, 'form.html', {"user1": user1, 'categories': Category.objects.all(),
+                                                 'institutions': Institution.objects.all()})
         else:
             return redirect('login')
 
@@ -78,9 +103,11 @@ class AddDonationView(View):
             pick_up_date = request.POST.get('data')
             pick_up_time = request.POST.get('time')
             category_id = request.POST.get('categories')
-            new_donation = Donation.objects.create(user_id=user1.id, quantity=quantity, address=address, phone_number=phone_number, city=city,
-                                               zip_code=zip_code, pick_up_comment=pick_up_comment, institution_id=institution_id,
-                                               pick_up_date=pick_up_date, pick_up_time=pick_up_time)
+            new_donation = Donation.objects.create(user_id=user1.id, quantity=quantity, address=address,
+                                                   phone_number=phone_number, city=city,
+                                                   zip_code=zip_code, pick_up_comment=pick_up_comment,
+                                                   institution_id=institution_id,
+                                                   pick_up_date=pick_up_date, pick_up_time=pick_up_time)
 
             if new_donation:
                 new_donation.save()
@@ -121,9 +148,10 @@ def get_form_values(request):
     time = friendly_data[9]['value']
     more_info = friendly_data[10]['value']
 
-    return render(request, 'form_summary.html', {'category': category, 'institution': institution, 'bags': packages_quantity,
-                                                 'adress': adress, 'city': city, 'code': code, 'phone': phone,
-                                                 'date': date, 'time': time, 'more_info': more_info })
+    return render(request, 'form_summary.html',
+                  {'category': category, 'institution': institution, 'bags': packages_quantity,
+                   'adress': adress, 'city': city, 'code': code, 'phone': phone,
+                   'date': date, 'time': time, 'more_info': more_info})
 
 
 def get_update(request):
@@ -190,9 +218,6 @@ class UserView(View):
             return render(request, "user.html", {'user1': user1, 'donations': donations})
 
 
-
-
-
 class RegisterView(View):
 
     def get(self, request):
@@ -228,11 +253,11 @@ class RegisterView(View):
                     })
                     to_email = form.cleaned_data.get('username')
                     email = EmailMessage(
-                    mail_subject, message, to=[to_email]
+                        mail_subject, message, to=[to_email]
                     )
                     email.send()
                     message = 'Wysłaliśmy na twój adres email link do atywacji konto.'
-                    return render(request, 'register.html', {'message': message} )
+                    return render(request, 'register.html', {'message': message})
                 else:
                     form.add_error('confirm_password', 'Powtórzone hasło jest inne niż pierwsze')
                     return render(request, 'register.html', {'form': form})
@@ -256,7 +281,8 @@ def activate(request, uidb64, token):
         return render(request, 'index.html', {'user1': request.user, 'conf_info': conf_info})
     else:
         message = 'Link aktywacyjny stracił ważność'
-        return render(request, 'register.html', {'message': message} )
+        return render(request, 'register.html', {'message': message})
+
 
 class LogoutView(View):
 
@@ -283,22 +309,3 @@ class UpdateUserView(View):
                 return render(request, "update_user_form.html", {"form": form, 'user1': user1})
 
             return redirect('login')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
